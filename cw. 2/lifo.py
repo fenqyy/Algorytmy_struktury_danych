@@ -1,30 +1,17 @@
 from typing import Any
-
-
-class LinkedList:
-
-    def __init__(self, value):
-        self.value: Any = value
-        self.next: 'Node' = None
+from linkedlist import LinkedList
 
 
 class Stack:
 
     def __init__(self):
-        self.storage: LinkedList = None
+        self.storage = LinkedList()
 
     def push(self, element: Any) -> None:
-        newNode = LinkedList(element)
-        if self.storage == None:
-            self.storage = newNode
-        else:
-            newNode.next = self.storage
-            self.storage = newNode
+        return self.storage.push(element)
 
     def pop(self) -> Any:
-        popElement = self.storage.value
-        self.storage = self.storage.next
-        return popElement
+        return self.storage.pop()
 
     def __str__(self):
         li = []
@@ -35,12 +22,7 @@ class Stack:
         return "\n".join(li[::-1])
 
     def __len__(self):
-        iterator = 0
-        tmp = self.storage
-        while (tmp != None):
-            iterator += 1
-            tmp = tmp.next
-        return iterator
+        return self.storage.__len__()
 
 
 
