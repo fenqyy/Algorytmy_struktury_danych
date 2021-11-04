@@ -1,55 +1,26 @@
 from typing import Any
-
-
-class LinkedList:
-
-    def __init__(self, value):
-        self.value: Any = value
-        self.next: 'Node' = None
+from linkedlist import LinkedList
 
 
 class Queue:
 
     def __init__(self):
-        self.storage: LinkedList = None
+        self.storage = LinkedList()
 
     def peek(self) -> Any:
-        tmp = self.storage
-        while(tmp.next!=None):
-            tmp = tmp.next
-        return tmp.value
+        return self.storage
 
     def enqueue(self, element: Any) -> None:
-        newNode = LinkedList(element)
-        if self.storage == None:
-            self.storage = newNode
-        else:
-            newNode.next = self.storage
-            self.storage = newNode
+        self.storage.append(element)
 
     def dequeue(self) -> Any:
-        tmp = self.storage
-        while (tmp.next.next != None):
-            tmp = tmp.next
-        dequeueElement = tmp.next.value
-        tmp.next = tmp.next.next
-        return dequeueElement
+        return self.storage.pop()
 
     def __str__(self):
-        li = []
-        tmp = self.storage
-        while (tmp != None):
-            li.append(str(tmp.value))
-            tmp = tmp.next
-        return ', '.join(li[::-1])
+        return self.storage.__str__().replace(" -> ", ", ")
 
     def __len__(self):
-        iterator = 0
-        tmp = self.storage
-        while (tmp != None):
-            iterator += 1
-            tmp = tmp.next
-        return iterator
+        return self.storage.__len__()
 
 
 queue = Queue()
@@ -64,6 +35,7 @@ queue.enqueue('klient3')
 
 
 assert str(queue) == 'klient1, klient2, klient3'
+
 
 client_first = queue.dequeue()
 
