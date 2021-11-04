@@ -23,10 +23,13 @@ class LinkedList:
 
     def append(self,value: Any) -> None:
         newNode = Node(value)
-        tmp = self.head
-        while(tmp.next != None):
-            tmp = tmp.next
-        tmp.next = newNode
+        if self.head == None:
+            self.head = newNode
+        else:
+            tmp = self.head
+            while tmp.next != None:
+                tmp = tmp.next
+            tmp.next = newNode
 
     def node(self, at: int) -> Node:
         iterator = 0
