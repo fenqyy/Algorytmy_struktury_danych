@@ -14,12 +14,7 @@ class Stack:
         return self.storage.pop()
 
     def __str__(self):
-        li = []
-        tmp = self.storage
-        while (tmp != None):
-            li.append(str(tmp.value))
-            tmp = tmp.next
-        return "\n".join(li[::-1])
+        return self.storage.__str__().replace(" -> ", "\n")
 
     def __len__(self):
         return self.storage.__len__()
