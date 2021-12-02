@@ -2,6 +2,9 @@ from typing import Any, Callable
 
 
 class BinaryNode:
+    value: Any
+    left_child: 'BinaryNode'
+    right_child: 'BinaryNode'
 
     def __init__(self, value):
         self.value = value
@@ -9,47 +12,103 @@ class BinaryNode:
         self.right_child = None
 
     def is_leaf(self):
-        if (self.left_child or self.right_child) is None:
-            return False
-        return True
+        if(self.left_child == None and self.right_child == None):
+            return True
+        return False
 
     def add_left_child(self, value: Any):
-        tmp = BinaryNode(value)
-        self.left_child = tmp
+        self.left_child = BinaryNode(value)
 
     def add_right_child(self, value: Any):
-        tmp = BinaryNode(value)
-        self.right_child = tmp
+        self.right_child = BinaryNode(value)
 
     def traverse_in_order(self, visit: Callable[[Any], None]):
-        if(visit):
-            traverse_in_order(self.left_child)
-            print(visit.value)
-            traverse_in_order(self.right_child)
+        if self.left_child:
+            self.left_child.traverse_in_order(visit)
+        visit(self)
+        if self.right_child:
+            self.right_child.traverse_in_order(visit)
+
+    def traverse_post_order(self, visit: Callable[[Any], None]):
+        if self.left_child:
+            self.left_child.traverse_post_order(visit)
+        if self.right_child:
+            self.right_child.traverse_post_order(visit)
+        visit(self)
+
+    def traverse_pre_order(self, visit: Callable[[Any], None]):
+        visit(self)
+        if self.left_child:
+            self.left_child.traverse_pre_order(visit)
+        if self.right_child:
+            self.right_child.traverse_pre_order(visit)
+
+    def show(self, gap_size=0):
+        pre1 = 4 * " " + "   " * gap_size+"|_"
+        str1 = pre1[:-2]
+        str2 = pre1[:-2]
+        print(pre1, self.value)
+        if self.right_child:
+            print(str1)
+            self.right_child.show(gap_size=gap_size + 1)
+        if self.left_child:
+            print(str2)
+            self.left_child.show(gap_size=gap_size + 1)
 
     def __str__(self):
         return str(self.value)
-
-
-
 
 
 class BinaryTree:
+    root: BinaryNode
 
-    def __init__(self, value=None):
+    def __init__(self, value):
         self.root = BinaryNode(value)
-        self.value = value
 
-    def __str__(self):
-        return str(self.value)
+    def traverse_in_order(self, visit: Callable[[Any], None]):
+        self.root.traverse_in_order(visit)
 
+    def traverse_post_order(self, visit: Callable[[Any], None]):
+        self.root.traverse_post_order(visit)
+
+    def traverse_pre_order(self, visit: Callable[[Any], None]):
+        self.root.traverse_pre_order(visit)
+
+    def show(self, gap_size=0):
+        pre1 = 10 * " " * gap_size + "|_"
+        str1 = " " * 7
+        str2 = "    " * 7
+        print(str(self.root.value))
+        print(pre1[:-2])
+        if self.root.right_child:
+            print(str1)
+            self.root.right_child.show(gap_size=gap_size + 1)
+        if self.root.left_child:
+            print(str2)
+            self.root.left_child.show(gap_size=gap_size + 1)
 
 
 tree = BinaryTree(10)
 
 assert tree.root.value == 10
 
-BinaryTree.add_left_child(1)
+tree.root.add_right_child(2)
+tree.root.right_child.add_right_child(3)
+tree.root.add_left_child(1)
+tree.root.left_child.add_left_child(1)
+
+
+assert tree.root.right_child.value == 2
+assert tree.root.right_child.is_leaf() is False
+
+
+assert tree.root.left_child.left_child.value == 1
+assert tree.root.left_child.left_child.is_leaf() is True
+
+tree.show()
+
+
+
 
 
 
