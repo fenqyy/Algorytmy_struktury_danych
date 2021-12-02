@@ -9,9 +9,9 @@ class BinaryNode:
         self.right_child = None
 
     def is_leaf(self):
-        if not (self.left_child or self.right_child):
-            return True
-        return False
+        if (self.left_child or self.right_child) is None:
+            return False
+        return True
 
     def add_left_child(self, value: Any):
         tmp = BinaryNode(value)
